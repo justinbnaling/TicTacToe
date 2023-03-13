@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // enter game 
+        // no win conditions
+        // displays gameboard after turn
+
+        const Gameboard = (function(){
+            const gameboard = ["","","","","","","","",""];
+            
+            const enterMark = (mark, position) => {
+                gameboard[position] = mark;
+            };
+
+            const getBoardConsole = () =>{
+                console.log(gameboard)
+                return gameboard;
+            };
+
+            const getBoardDOM = () =>{};
+
+            return {enterMark, getBoardConsole, getBoardDOM, gameboard}
+        })()
+
+        const GameController = (function(){
+            const players = [
+                {
+                name: "PlayerOne",
+                mark: "X"
+                },
+                {
+                name: "PlayerTwo",
+                mark: "O"
+                }
+            ];
+
+            let activePlayer = players[0];
+
+            const switchActivePlayer = () => {
+                if (activePlayer == players[0]){activePlayer = players[1]}
+                else {activePlayer = players[0];}
+                
+            }
+
+            const getActivePlayer = () => {
+                console.log(`active player is ${activePlayer.name}`)
+                return activePlayer;
+            }
+
+            let validTurn = (position) => {
+                    if (Gameboard.gameboard[position] == ''){return true}
+                    else {return false}
+            }
+            
+            const playRound = (position) =>{
+                // allow to enter Mark if position is not full
+                if (validTurn(position)) {                    
+                    Gameboard.enterMark(activePlayer.mark, position)
+                    switchActivePlayer();
+                }
+            }
+
+            return {playRound, getActivePlayer}
+        })()
+
+
+
+
+    </script>
+</body>
+</html>

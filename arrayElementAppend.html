@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        app{
+            height: 500px;
+            width: 500px;
+            display: grid;
+            grid-template-rows: 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+
+        app div{
+            border: 5px black solid;
+            background-color: lightgray;
+        }
+
+        app div:hover{
+            background-color: gray;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- create an array that finds the grid and appends each item in the array-->
+    <app>
+        <div> 1 </div>
+        <div> 2 </div>
+        <div> 3 </div>
+        <div> 4 </div>
+        <div> 5 </div>
+        <div> 6 </div>
+        <div> 7 </div>
+        <div> 8 </div>
+        <div> 9 </div>
+    </app>
+
+    <script>
+        let myArray = ["x", "o", "x", "o"]
+        let squares = document.querySelectorAll("app div")
+
+        myArray.forEach((element, index)=>{
+            squares[index].textContent = element;        
+        })
+
+        squares.forEach(element=>{
+            element.addEventListener("click", function(event){
+                event.target.textContent = "clicked"
+            })
+        })
+
+
+    </script>
+</body>
+</html>
