@@ -30,8 +30,7 @@ const GameController = (function(){
 
     const switchActivePlayer = () => {
         if (activePlayer == players[0]){activePlayer = players[1]}
-        else {activePlayer = players[0];}
-        
+        else {activePlayer = players[0];}   
     }
     
     const getActivePlayer = () => {
@@ -43,7 +42,7 @@ const GameController = (function(){
         else {return false}
     }
     
-    // allow to enter Mark if position is not full
+    // allow enterMark if position is empty
     const playRound = (position) =>{
         if (validTurn(position) == true) {                    
             Gameboard.enterMark(activePlayer.mark, position)            
@@ -63,6 +62,14 @@ const ScreenController = (function(){
         boardDiv.textContent = "";
     }
 
+
+    // Plays round given an button's index
+    const buttonPlayRound = (e) =>{
+        console.log(e.target.classList[0])
+        GameController.playRound(e.target.classList[0]);
+        updateScreen()
+    }
+
     const renderBoard = () =>{
         Gameboard.board.forEach((element, index)=>{
             const cellButton = document.createElement("button");
@@ -72,28 +79,18 @@ const ScreenController = (function(){
         })
     }
 
-    // finds button index for each button
-    const findIndex = (e) =>{
-        console.log(e.target.classList[0])
-    }
-
     const updateScreen = () =>{
         turnDiv.textContent = `${GameController.getActivePlayer().name}'s turn`
         clearScreen()
         renderBoard()
- 
+
         const cellButtons = document.querySelectorAll("button")
         cellButtons.forEach(button =>{
-            button.addEventListener("click", findIndex)
+            button.addEventListener("click", buttonPlayRound)
         })
-        //  end of find buttons
-
     }
-
-
-
-
     return {updateScreen}
 
 })()
 
+ScreenController.updateScreen()
