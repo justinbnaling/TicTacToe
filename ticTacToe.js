@@ -41,6 +41,43 @@ const GameController = (function(){
         if (Gameboard.board[position] == ''){return true}
         else {return false}
     }
+
+    // declare winner if either user occupies winConditions
+    const declareWinner = () => {
+
+        // winning conditions
+        let winArray = [
+            [0,1,2],
+            [3,4,5],
+            [6,7,8],
+            [0,3,6],
+            [1,4,7],
+            [2,5,8],
+            [0,4,8],
+            [0,4,8],
+        ]
+        
+        let winCondition = false;
+        for(let i=0; i<8; i++){
+            let j=0;
+            if (Gameboard.board[winArray[i][j]] == "X" &&
+                Gameboard.board[winArray[i][j+1]] == "X" &&
+                Gameboard.board[winArray[i][j+2]] == "X") 
+                {
+                    
+                    console.log(`row: ${i} is all x`)
+                    console.log(`j is ${j}`)
+                    winCondition = true;
+                    break;
+                }
+            else{
+                console.log(`row: ${i} is NOT all x`)
+            }
+        }
+
+        console.log(winCondition)
+
+    }
     
     // allow enterMark if position is empty
     const playRound = (position) =>{
@@ -50,7 +87,7 @@ const GameController = (function(){
         }
     }
 
-    return {playRound, getActivePlayer}
+    return {playRound, getActivePlayer, declareWinner}
 })()
 
 const ScreenController = (function(){
@@ -68,6 +105,8 @@ const ScreenController = (function(){
         console.log(e.target.classList[0])
         GameController.playRound(e.target.classList[0]);
         updateScreen()
+        // check win 
+        GameController.declareWinner()
     }
 
     const renderBoard = () =>{
@@ -93,4 +132,5 @@ const ScreenController = (function(){
 
 })()
 
-ScreenController.updateScreen()
+//initial screen loadout
+ScreenController.updateScreen() 

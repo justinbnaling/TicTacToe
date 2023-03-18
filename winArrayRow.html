@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let winArray = [
+            [0,1,2],
+            [3,4,5],
+            [6,7,8],
+            [0,3,6],
+            [1,4,7],
+            [2,5,8],
+            [0,4,8],
+            [0,4,8],
+        ]
+
+        const board = ["x","x","y","x","x","x","","",""];
+        let boardRow = [];
+
+
+        // get one value of board using winarray
+
+            // board is 1d
+            // find first value of win array
+
+            // console.log(winArray[0][1])
+            // console.log(board[winArray[0][1]])
+
+        // get a row of values
+            for(let j=0; j<3; j++){
+                console.log(board[winArray[0][j]])
+                boardRow.push(board[winArray[0][j]])
+            }
+
+            // is board row == win array row?
+
+
+        
+        // get 2 rows of values
+        // for(let i=0; i<winArray.length - 1; i++){
+        //     for(let j=0; j<3; j++){
+        //             console.log(board[winArray[i][j]])
+        //             boardRow.push(board[winArray[i][j]])
+        //         }
+        //     }
+
+        console.log(`a board row is ${boardRow}`)
+
+        // after checking a row of values
+        // compare winArray row to a row of board values
+
+    </script>
+</body>
+</html>
