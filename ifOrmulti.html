@@ -7,6 +7,58 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <script>
+        let winArray = [
+            [0,1,2],
+            [3,4,5],
+            [6,7,8],
+            [0,3,6],
+            [1,4,7],
+            [2,5,8],
+            [0,4,8],
+            [0,4,8],
+        ]
+
+        const board = [
+            "x",
+            "x",
+            "y",
+            "y",
+            "x",
+            "x",
+            "x",
+            "y",
+            "x",
+        ]
+        // find x and y win condition
+        // use multi and or
+
+
+        // let winCondition = false;
+        // for(let i=0; i<8; i++){
+        //     let j=0;
+        //     if (board[winArray[i][j]] == "x" &&
+        //         board[winArray[i][j+1]] == "x" &&
+        //         board[winArray[i][j+2]] == "x") 
+                
+        //         {
+        //             console.log(`row: ${i} is all x`)
+        //             winCondition = true;
+        //             break;
+        //         }
+        //     else{
+        //         console.log(`row: ${i} is NOT all x`)
+        //     }
+        // }
+
+        // simple or
+        let myThing = "A";
+        let myThing2 = "B";
+        if ((myThing == "a" || myThing == "A") &&
+            (myThing2 == "b" || myThing2 == "B")) {
+            console.log(myThing)
+        }
+
+    </script>
 </body>
 </html>

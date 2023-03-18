@@ -60,9 +60,13 @@ const GameController = (function(){
         let winCondition = false;
         for(let i=0; i<8; i++){
             let j=0;
-            if (Gameboard.board[winArray[i][j]] == "X" &&
+            if ((Gameboard.board[winArray[i][j]] == "X" &&
                 Gameboard.board[winArray[i][j+1]] == "X" &&
-                Gameboard.board[winArray[i][j+2]] == "X") 
+                Gameboard.board[winArray[i][j+2]] == "X") ||
+
+                (Gameboard.board[winArray[i][j]] == "O" &&
+                Gameboard.board[winArray[i][j+1]] == "O" &&
+                Gameboard.board[winArray[i][j+2]] == "O")) 
                 {
                     
                     console.log(`row: ${i} is all x`)
