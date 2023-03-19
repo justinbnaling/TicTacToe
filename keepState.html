@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // how to keep state of a property
+
+
+        const counterCreator = () => {
+            let count = 0;
+            return () => {
+                console.log(count);
+                count++;
+            };
+        };
+
+        const counter = counterCreator();
+
+        counter(); // 0
+        counter(); // 1
+        counter(); // 2
+        counter(); // 3
+    </script>
+</body>
+</html>

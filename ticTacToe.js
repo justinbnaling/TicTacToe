@@ -42,10 +42,13 @@ const GameController = (function(){
         else {return false}
     }
 
-    // declare winner if either user occupies winConditions
+    /*
+    DeclareWinner
+        True if winner found
+        False if winner not found
+    */
+    
     const declareWinner = () => {
-
-        // winning conditions
         let winArray = [
             [0,1,2],
             [3,4,5],
@@ -57,7 +60,6 @@ const GameController = (function(){
             [0,4,8],
         ]
         
-        let winCondition = false;
         for(let i=0; i<8; i++){
             let j=0;
             if ((Gameboard.board[winArray[i][j]] == "X" &&
@@ -68,26 +70,34 @@ const GameController = (function(){
                 Gameboard.board[winArray[i][j+1]] == "O" &&
                 Gameboard.board[winArray[i][j+2]] == "O")) 
                 {
+                    // switchActivePlayer()
+                    if (GameController.getActivePlayer().name == "Player One"){
+                        console.log(`the winner is: ${players[1].name}`)
+                    }
+                    else{
+                        console.log(`the winner is: ${players[0].name}`)
+                    }
                     
-                    console.log(`row: ${i} is all x`)
-                    console.log(`j is ${j}`)
-                    winCondition = true;
-                    break;
+                    return true;
                 }
-            else{
-                console.log(`row: ${i} is NOT all x`)
-            }
         }
-
-        console.log(winCondition)
+        return false;
 
     }
     
-    // allow enterMark if position is empty
+    // allow enterMark if position is empty and there is no winner
     const playRound = (position) =>{
-        if (validTurn(position) == true) {                    
+
+        if (declareWinner == true){
+            console.log(`do Nothing`)
+        }
+
+        else {
+            if (validTurn(position) == true){
+        // if ((validTurn(position) == true) && (declareWinner != true)) {                    
             Gameboard.enterMark(activePlayer.mark, position)            
             switchActivePlayer();
+            }
         }
     }
 
@@ -106,11 +116,19 @@ const ScreenController = (function(){
 
     // Plays round given an button's index
     const buttonPlayRound = (e) =>{
-        console.log(e.target.classList[0])
-        GameController.playRound(e.target.classList[0]);
-        updateScreen()
-        // check win 
-        GameController.declareWinner()
+
+        if(GameController.declareWinner()){
+            console.log(`winner declared do nothing`)
+        }
+
+        else {
+            // if (GameController.declareWinner() != true)
+            console.log(e.target.classList[0])
+            GameController.playRound(e.target.classList[0]);
+            updateScreen()
+            // check win 
+            if (GameController.declareWinner()){console.log(`winner Found!`)}
+        }
     }
 
     const renderBoard = () =>{
