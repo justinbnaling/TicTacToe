@@ -42,6 +42,11 @@ const GameController = (function(){
         else {return false}
     }
 
+    let winner = null;
+
+    const getWinner = () => {
+        return winner;
+    }
     /*
     DeclareWinner
         True if winner found
@@ -65,43 +70,41 @@ const GameController = (function(){
             if ((Gameboard.board[winArray[i][j]] == "X" &&
                 Gameboard.board[winArray[i][j+1]] == "X" &&
                 Gameboard.board[winArray[i][j+2]] == "X") ||
-
                 (Gameboard.board[winArray[i][j]] == "O" &&
                 Gameboard.board[winArray[i][j+1]] == "O" &&
                 Gameboard.board[winArray[i][j+2]] == "O")) 
                 {
-                    // switchActivePlayer()
                     if (GameController.getActivePlayer().name == "Player One"){
                         console.log(`the winner is: ${players[1].name}`)
+                        winner = players[1].name;
                     }
                     else{
                         console.log(`the winner is: ${players[0].name}`)
+                        winner = players[0].name;
                     }
-                    
                     return true;
                 }
         }
         return false;
+    }
 
+
+    const resetGame = () =>{
+        for(let i=0; i<Gameboard.board.length; i++){
+            Gameboard.enterMark("", i);
+        }
+        activePlayer = players[0]
     }
     
     // allow enterMark if position is empty and there is no winner
     const playRound = (position) =>{
-
-        if (declareWinner == true){
-            console.log(`do Nothing`)
-        }
-
-        else {
-            if (validTurn(position) == true){
-        // if ((validTurn(position) == true) && (declareWinner != true)) {                    
+        if ((validTurn(position) == true) && (declareWinner != true)) {                    
             Gameboard.enterMark(activePlayer.mark, position)            
             switchActivePlayer();
             }
-        }
     }
 
-    return {playRound, getActivePlayer, declareWinner}
+    return {playRound, getActivePlayer, declareWinner, getWinner, resetGame}
 })()
 
 const ScreenController = (function(){
@@ -113,21 +116,29 @@ const ScreenController = (function(){
         boardDiv.textContent = "";
     }
 
+    const displayWinner = () =>{
+        turnDiv.textContent = `${GameController.getWinner()} is the winner!`;
+        const resetButton = document.createElement("button");
+        resetButton.textContent = "New Game";
+        resetButton.style.display = "block"
+        turnDiv.appendChild(resetButton)
+        resetButton.addEventListener("click", ()=>{
+            GameController.resetGame()
+            clearScreen()
+            updateScreen()
+            resetButton.style.display = "none"
+        })
+    }
 
     // Plays round given an button's index
     const buttonPlayRound = (e) =>{
-
-        if(GameController.declareWinner()){
-            console.log(`winner declared do nothing`)
-        }
-
-        else {
-            // if (GameController.declareWinner() != true)
+        if (GameController.declareWinner() != true){
             console.log(e.target.classList[0])
             GameController.playRound(e.target.classList[0]);
             updateScreen()
-            // check win 
-            if (GameController.declareWinner()){console.log(`winner Found!`)}
+            if (GameController.declareWinner()){
+                displayWinner()
+                console.log(`winner Found!`)}
         }
     }
 
