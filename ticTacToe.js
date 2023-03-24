@@ -27,6 +27,8 @@ const GameController = (function(){
     ];
 
     let activePlayer = players[0];
+    let endGame = false; 
+    let turnNumber = 0;
 
     const switchActivePlayer = () => {
         if (activePlayer == players[0]){activePlayer = players[1]}
@@ -52,10 +54,8 @@ const GameController = (function(){
     // true if board is full 
     // false otherwise
     const boardFull = () => {
-        for (let i=0; i < Gameboard.board.length; i++){
-            if (Gameboard.board[i] == ""){return false}
-        }
-        return true;
+        if (turnNumber > 8) {return true}
+        return false;
     }
 
 
@@ -87,12 +87,12 @@ const GameController = (function(){
                 Gameboard.board[winArray[i][j+2]] == "O")) 
                 {
                     if (GameController.getActivePlayer().name == "Player One"){
-                        console.log(`the winner is: ${players[1].name}`)
-                        winner = players[1].name;
-                    }
-                    else{
                         console.log(`the winner is: ${players[0].name}`)
                         winner = players[0].name;
+                    }
+                    else{
+                        console.log(`the winner is: ${players[1].name}`)
+                        winner = players[1].name;
                     }
                     return true;
                 }
@@ -111,6 +111,7 @@ const GameController = (function(){
     }
 
     const declareGameOver = () => {
+        if (boardFull()){return true}
         if (declareTie()){return true}
         if (declareWinner()){return true}
         return false
@@ -123,16 +124,37 @@ const GameController = (function(){
         activePlayer = players[0]
     }
     
-    // allow enterMark if position is empty and there is no winner
     const playRound = (position) =>{
-        if ((validTurn(position) == true) && 
-            (declareGameOver() != true)) {                    
-            Gameboard.enterMark(activePlayer.mark, position)            
-            switchActivePlayer();
+        if ((validTurn(position) == true) &&
+            (endGame == false)) {
+            Gameboard.enterMark(activePlayer.mark, position)  
+            turnNumber++;
+            // full board state
+            if (boardFull()){
+                endGame = true;
+                console.log(`the boardful state is ${boardFull()}`)
+                if (declareWinner()) {console.log(`the winner is ${getWinner()}`)}
+                else {
+                    console.log(declareTie())
+                }
             }
-    }
 
-    return {playRound, getActivePlayer, declareWinner, getWinner, resetGame, boardFull, declareTie}
+            // find whether if there is a winner
+            else if(declareWinner()){
+                endGame = true;
+                console.log(`the winner is ${getWinner()}`)
+            }
+
+            // wait for next turn
+            else{
+                endGame = false;
+                switchActivePlayer();
+            }
+        } 
+    }
+    
+
+    return {playRound, getActivePlayer, declareWinner, getWinner, resetGame, boardFull, declareTie, endGame}
 })()
 
 const ScreenController = (function(){
@@ -160,20 +182,8 @@ const ScreenController = (function(){
 
     // Plays round given an button's index
     const buttonPlayRound = (e) =>{
-        if(GameController.declareTie()){
-            console.log(`Tie Game!`)
-            GameController.playRound(e.target.classList[0]);
-            updateScreen()
-            turnDiv.textContent = "Tie Game!";
-        }
-        else if (GameController.declareWinner() != true){
-            console.log(e.target.classList[0])
-            GameController.playRound(e.target.classList[0]);
-            updateScreen()
-            if (GameController.declareWinner()){
-                displayWinner()
-                console.log(`winner Found!`)}
-        }
+        GameController.playRound(e.target.classList[0]);
+        updateScreen()
     }
 
     const renderBoard = () =>{
