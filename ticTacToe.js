@@ -178,8 +178,7 @@ const GameController = (function(){
     }
     
 
-    return {playRound, getActivePlayer, declareWinner, getWinner, resetGame, boardFull, declareTie, addRound,
-            getRound, getGameEnd}
+    return {playRound, getActivePlayer, getWinner, resetGame, declareTie, getGameEnd}
 })()
 
 const ScreenController = (function(){
@@ -191,8 +190,16 @@ const ScreenController = (function(){
         boardDiv.textContent = "";
     }
 
-    const displayWinner = () =>{
-        turnDiv.textContent = `${GameController.getWinner()} is the winner!`;
+    const displayResult = () =>{
+        if (GameController.getWinner() != false){
+            if (GameController.getWinner() != null){
+            turnDiv.textContent = `${GameController.getWinner()} is the winner!`;
+            }
+        }
+        else{
+            turnDiv.textContent = `Tie Game!`;
+        }
+        
         const resetButton = document.createElement("button");
         resetButton.textContent = "New Game";
         resetButton.style.display = "block"
@@ -208,7 +215,6 @@ const ScreenController = (function(){
     // Plays round given an button's index
     const buttonPlayRound = (e) =>{
         GameController.playRound(e.target.classList[0]);
-        // if (GameController.endGame == true) {console.log(`game has ended update screen`)}
         updateScreen()
     }
 
@@ -224,7 +230,7 @@ const ScreenController = (function(){
     const updateScreen = () =>{
         if (GameController.getGameEnd()) {
             console.log(`game has ended update screen`)
-            displayWinner();
+            displayResult()
             clearScreen()
             renderBoard()
         }
