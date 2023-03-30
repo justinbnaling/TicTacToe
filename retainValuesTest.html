@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // given a data structure and scope
+        // try to iterate, and grab a variable
+
+        /*
+        array - global
+        array has the latest counter pushed and popped
+        */
+        // counter = 0; 
+        // let myArray = []
+
+        // myArray.push(counter)
+        // console.log(myArray[0])
+        // counter++ 
+        // myArray.pop(counter)
+        // myArray.push(counter)
+        // console.log(myArray[0])
+
+
+        /* array - function
+            Goal - create an counter that is iterated by a function 
+            array needs to be global and is iterated by function
+        */
+        // let counter = 0
+
+        // const iterateCounter = () =>{
+        //     counter++
+        // }
+
+
+        /* object - global scope
+            Goal - create an object that is iterated globally 
+        */
+
+        // let myLiteral  = {
+        //     counter: 0,
+        // }
+
+        // console.log(myLiteral.counter)
+        // myLiteral.counter++
+        // console.log(myLiteral.counter)
+        // myLiteral.counter++
+        // console.log(myLiteral.counter)
+
+
+
+        /* object - function scope
+            Goal - create an object that is iterated by a function 
+        */
+
+        // let myLiteral  = {
+        //     counter: 0,
+        // }
+
+        // const iterateCounter = ()=>{
+        //     myLiteral.counter++
+        // }
+        
+        // console.log(myLiteral.counter)
+        // iterateCounter()
+        // console.log(myLiteral.counter)
+
+
+        /* object constructor - global scope
+            Goal - create an object constructor that is iterated globally
+        */
+
+        // function Thing(){
+        //     this.counter = 0;
+        // }
+
+        // let myThing = new Thing();
+        
+        // const iterateMyThing = () =>{
+        //     myThing.counter++
+        // }
+        // console.log(myThing.counter)
+        // iterateMyThing();
+        // console.log(myThing.counter)
+
+
+        /* object constructor - function scope
+            Goal - create an object constructor that is iterated by a method
+        */
+
+        // function Thing(){
+        //     this.counter = 0;
+        // }
+
+        // Thing.prototype.iterateCounter = function () {
+        //     this.counter++;
+        // };
+
+        // const myThing = new Thing();
+        // console.log(myThing.counter)
+        // myThing.iterateCounter()
+        // console.log(myThing.counter)
+
+        /* factory function - function scope
+            Goal - create an object using factory function that is in global scope
+
+        */
+
+        // create a factory function
+
+        // const myThingFactory = () =>{
+        //     number = 0; 
+        //     const iterate = () => {
+        //         number++
+        //         console.log(number)
+        //     }
+
+        //     const players = [
+        //         {
+        //         name: "Player One",
+        //         mark: "X"
+        //         },
+        //         {
+        //         name: "Player Two",
+        //         mark: "O"
+        //         }
+        //     ];
+
+        //     activePlayer = players[0]
+
+        //     const switchActivePlayer = () => {
+        //         if (activePlayer == players[0]){activePlayer = players[1]}
+        //         else {activePlayer = players[0];}   
+        //         console.log(activePlayer)
+        //         return activePlayer
+        //     }
+        //     return {iterate, number, switchActivePlayer, activePlayer}
+        // }
+
+        // let myThing = myThingFactory()
+
+
+        // create a module that holds the number of rounds
+        const Game = (() =>{
+            let round = 0;
+            let players = [
+                "p1",
+                "p2",
+            ]
+            let activePlayer = players[0];
+
+            const incrementRound = () =>{
+                return round++;
+            }
+            const resetRounds = () =>{
+                return round = 0;
+            }
+            const getRound = () =>{
+                return round;
+            }
+
+            const switchPlayer = ()=>{
+                if (activePlayer == players[0]) {activePlayer = players[1]}
+                else{activePlayer =  players[0]}
+                return activePlayer
+                // activePlayer == players[0] ?  return players[1] : return players[0]
+            }
+
+            const getActivePlayer = () =>{
+                return activePlayer
+            }
+
+            // playRound until turn 8
+            const playRound = ()=>{
+                if (getRound() < 8){
+                    incrementRound();
+                    getRound();
+                    console.log(`Played a round`)
+                }
+
+            }
+
+            return {incrementRound, resetRounds, switchPlayer, getActivePlayer, getRound, playRound}
+        })()
+
+
+
+
+
+
+
+    </script>
+</body>
+</html>

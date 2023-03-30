@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+
+        // player factory function
+        const createPlayer = (name, marker) => {
+            return {name, marker};
+        }
+
+
+        /* find how to count rounds, switch player, endGame
+            rounds  - not applicable - held in gameboard
+            switch player = playerNext
+            endGame  - ?
+        */
+        const game = (() => {
+            const playerOne = createPlayer('Player 1', 'bolt');
+            const playerTwo = createPlayer('Player 2', 'heart');
+            let activePlayer = playerOne;
+
+
+            function nextPlayer() {
+                this.activePlayer === playerOne ? this.activePlayer = playerTwo : this.activePlayer = playerOne;
+                console.log('nextPlayer() function ran')
+                console.log('active player: ' + activePlayer.name);
+            }
+
+            return {nextPlayer}
+
+        })();
+
+        // ternary operator test
+        let a = true;
+        a ? console.log(`a is true`): console.log(`a is false`)
+    </script>
+</body>
+</html>

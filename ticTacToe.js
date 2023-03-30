@@ -27,18 +27,41 @@ const GameController = (function(){
     ];
 
     let activePlayer = players[0];
-    let endGame = false; 
-    let turnNumber = 0;
+    let gameEnd = false; 
+    let round = 0;
+
+    const getGameEnd = () =>{
+        return gameEnd
+    }
+
+    const setGameEnd = (bool) =>{
+        gameEnd = bool
+        return gameEnd
+    }
+
+    const getRound = () =>{
+        return round;
+    }
+
+    const resetRound = () =>{
+        round = 0;
+        return round;
+    }
+
+    const addRound = ()=>{
+        round++
+        return round;
+    }
+
+    const getActivePlayer = () =>{
+        return activePlayer;
+    }
 
     const switchActivePlayer = () => {
         if (activePlayer == players[0]){activePlayer = players[1]}
         else {activePlayer = players[0];}   
     }
-    
-    const getActivePlayer = () => {
-        return activePlayer;
-    }
-
+   
     let validTurn = (position) => {
         if (Gameboard.board[position] == ''){return true}
         else {return false}
@@ -50,14 +73,19 @@ const GameController = (function(){
         return winner;
     }
 
-
-    // true if board is full 
-    // false otherwise
-    const boardFull = () => {
-        if (turnNumber > 8) {return true}
-        return false;
+    const setWinner = (bool) => {
+        winner = bool
+        return winner;
     }
 
+    // true if board is full
+    const boardFull = () => {
+        if (round > 8) {
+            gameEnd = true;
+            return true
+        }
+        return false;
+    }
 
     /*
     DeclareWinner
@@ -94,6 +122,7 @@ const GameController = (function(){
                         console.log(`the winner is: ${players[1].name}`)
                         winner = players[1].name;
                     }
+                    GameController.endGame = true;
                     return true;
                 }
         }
@@ -110,28 +139,24 @@ const GameController = (function(){
         return false;
     }
 
-    const declareGameOver = () => {
-        if (boardFull()){return true}
-        if (declareTie()){return true}
-        if (declareWinner()){return true}
-        return false
-    }
-
     const resetGame = () =>{
         for(let i=0; i<Gameboard.board.length; i++){
             Gameboard.enterMark("", i);
         }
-        activePlayer = players[0]
+        activePlayer = players[0];
+        resetRound();
+        setWinner(false);
+        setGameEnd(false);
     }
     
     const playRound = (position) =>{
-        if ((validTurn(position) == true) &&
-            (endGame == false)) {
+        if ((validTurn(position) == true) && 
+            (getGameEnd() == false)) {
             Gameboard.enterMark(activePlayer.mark, position)  
-            turnNumber++;
+            addRound();
             // full board state
             if (boardFull()){
-                endGame = true;
+                setGameEnd(true);
                 console.log(`the boardful state is ${boardFull()}`)
                 if (declareWinner()) {console.log(`the winner is ${getWinner()}`)}
                 else {
@@ -141,20 +166,20 @@ const GameController = (function(){
 
             // find whether if there is a winner
             else if(declareWinner()){
-                endGame = true;
+                setGameEnd(true);
                 console.log(`the winner is ${getWinner()}`)
             }
 
             // wait for next turn
             else{
-                endGame = false;
                 switchActivePlayer();
             }
         } 
     }
     
 
-    return {playRound, getActivePlayer, declareWinner, getWinner, resetGame, boardFull, declareTie, endGame}
+    return {playRound, getActivePlayer, declareWinner, getWinner, resetGame, boardFull, declareTie, addRound,
+            getRound, getGameEnd}
 })()
 
 const ScreenController = (function(){
@@ -183,6 +208,7 @@ const ScreenController = (function(){
     // Plays round given an button's index
     const buttonPlayRound = (e) =>{
         GameController.playRound(e.target.classList[0]);
+        // if (GameController.endGame == true) {console.log(`game has ended update screen`)}
         updateScreen()
     }
 
@@ -196,14 +222,23 @@ const ScreenController = (function(){
     }
 
     const updateScreen = () =>{
-        turnDiv.textContent = `${GameController.getActivePlayer().name}'s turn`
-        clearScreen()
-        renderBoard()
+        if (GameController.getGameEnd()) {
+            console.log(`game has ended update screen`)
+            displayWinner();
+            clearScreen()
+            renderBoard()
+        }
 
-        const cellButtons = document.querySelectorAll("button")
-        cellButtons.forEach(button =>{
-            button.addEventListener("click", buttonPlayRound)
-        })
+        else{
+            turnDiv.textContent = `${GameController.getActivePlayer().name}'s turn`
+            clearScreen()
+            renderBoard()
+
+            const cellButtons = document.querySelectorAll("button")
+            cellButtons.forEach(button =>{
+                button.addEventListener("click", buttonPlayRound)
+            })
+        }
     }
     return {updateScreen}
 
