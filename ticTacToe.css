@@ -1,9 +1,28 @@
+body {
+    background-color: #5d737e;
+}
+
+header,
+main {
+    display: flex;
+    justify-content: center;
+}
+
+header {
+    color: #FFF07C;
+}
+
+
+main {
+    color: #F0F7EE;
+    flex-direction: column;
+    align-items: center;
+}
 .container {
     height: 600px;
     width: 600px;
     display: flex;
     flex-direction: column;
-    border: 1px black solid;
     align-items: center;
     justify-content: space-around;
 }
