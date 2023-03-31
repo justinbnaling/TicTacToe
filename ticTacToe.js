@@ -191,10 +191,9 @@ const ScreenController = (function(){
     }
 
     const displayResult = () =>{
-        if (GameController.getWinner() != false){
-            if (GameController.getWinner() != null){
+        if ((GameController.getWinner() == "Player One") ||
+           (GameController.getWinner() == "Player Two")) {
             turnDiv.textContent = `${GameController.getWinner()} is the winner!`;
-            }
         }
         else{
             turnDiv.textContent = `Tie Game!`;
