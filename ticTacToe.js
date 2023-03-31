@@ -39,19 +39,19 @@ const GameController = (function(){
         return gameEnd
     }
 
-    const getRound = () =>{
-        return round;
-    }
+    // const getRound = () =>{
+    //     return round;
+    // }
 
-    const resetRound = () =>{
-        round = 0;
-        return round;
-    }
+    // const resetRound = () =>{
+    //     round = 0;
+    //     return round;
+    // }
 
-    const addRound = ()=>{
-        round++
-        return round;
-    }
+    // const addRound = ()=>{
+    //     round++
+    //     return round;
+    // }
 
     const getActivePlayer = () =>{
         return activePlayer;
@@ -144,7 +144,8 @@ const GameController = (function(){
             Gameboard.enterMark("", i);
         }
         activePlayer = players[0];
-        resetRound();
+        // resetRound();
+        round = 0;
         setWinner(false);
         setGameEnd(false);
     }
@@ -153,7 +154,8 @@ const GameController = (function(){
         if ((validTurn(position) == true) && 
             (getGameEnd() == false)) {
             Gameboard.enterMark(activePlayer.mark, position)  
-            addRound();
+            // addRound();
+            round++;
             // full board state
             if (boardFull()){
                 setGameEnd(true);
