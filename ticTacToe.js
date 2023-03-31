@@ -34,25 +34,6 @@ const GameController = (function(){
         return gameEnd
     }
 
-    const setGameEnd = (bool) =>{
-        gameEnd = bool
-        return gameEnd
-    }
-
-    // const getRound = () =>{
-    //     return round;
-    // }
-
-    // const resetRound = () =>{
-    //     round = 0;
-    //     return round;
-    // }
-
-    // const addRound = ()=>{
-    //     round++
-    //     return round;
-    // }
-
     const getActivePlayer = () =>{
         return activePlayer;
     }
@@ -144,21 +125,19 @@ const GameController = (function(){
             Gameboard.enterMark("", i);
         }
         activePlayer = players[0];
-        // resetRound();
         round = 0;
         setWinner(false);
-        setGameEnd(false);
+        gameEnd = false;
     }
     
     const playRound = (position) =>{
         if ((validTurn(position) == true) && 
             (getGameEnd() == false)) {
             Gameboard.enterMark(activePlayer.mark, position)  
-            // addRound();
             round++;
             // full board state
             if (boardFull()){
-                setGameEnd(true);
+                gameEnd = true;
                 console.log(`the boardful state is ${boardFull()}`)
                 if (declareWinner()) {console.log(`the winner is ${getWinner()}`)}
                 else {
@@ -168,7 +147,7 @@ const GameController = (function(){
 
             // find whether if there is a winner
             else if(declareWinner()){
-                setGameEnd(true);
+                gameEnd = true
                 console.log(`the winner is ${getWinner()}`)
             }
 
